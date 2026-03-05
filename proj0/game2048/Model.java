@@ -107,6 +107,7 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      * */
     public boolean tilt(Side side) {
+        System.out.println("Tilt method was called with side: " + side); // <-- 就加这一行！
         boolean changed;
         changed = false;
 
