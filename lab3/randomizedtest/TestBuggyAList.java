@@ -31,7 +31,7 @@ public class TestBuggyAList {
 
         int N = 5000;
         for (int i = 0; i < N; i += 1) {
-            int operationNumber = StdRandom.uniform(0, 3);
+            int operationNumber = StdRandom.uniform(0, 4);
             if (operationNumber == 0) {
                 // addLast
                 int randVal = StdRandom.uniform(0, 100);
@@ -50,6 +50,12 @@ public class TestBuggyAList {
                     int b=B.getLast();
                     assertEquals(a,b);
                     System.out.println("getLast: " + a );
+                }
+            }else if(operationNumber==3){
+                if(L.size()>0&&B.size()>0) {
+                    L.removeLast();
+                    B.removeLast();
+                    System.out.println("removeLast");
                 }
             }
 
