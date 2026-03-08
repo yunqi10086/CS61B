@@ -74,6 +74,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst(){
+        if(size==0){
+            return null;
+        }
         nextfirst=(nextfirst+1)%array.length;
         T fir=array[nextfirst];
         array[nextfirst]=null;
@@ -85,6 +88,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast(){
+        if(size==0){
+            return null;
+        }
         nextlast=((nextlast-1)+array.length)%array.length;
         T las=array[nextlast];
         array[nextlast]=null;
