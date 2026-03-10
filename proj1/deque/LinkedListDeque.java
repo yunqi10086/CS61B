@@ -1,6 +1,6 @@
 package deque;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private class Node{
         public T value;
         public Node last;
@@ -21,6 +21,8 @@ public class LinkedListDeque<T> {
         sentinel.next=sentinel;
         size=0;
     }
+
+    @Override
     public void addFirst(T item){
         Node qwe=new Node(sentinel,item,sentinel.next);
         sentinel.next.last=qwe;
@@ -28,6 +30,7 @@ public class LinkedListDeque<T> {
         size+=1;
     }
 
+    @Override
     public void addLast(T item){
         Node qwe=new Node(sentinel.last,item,sentinel);
         sentinel.last.next=qwe;
@@ -35,14 +38,17 @@ public class LinkedListDeque<T> {
         size+=1;
     }
 
+    @Override
     public boolean isEmpty(){
         return sentinel.last == sentinel && sentinel.next == sentinel;
     }
 
+    @Override
     public int size(){
         return this.size;
     }
 
+    @Override
     public void printDeque(){
         Node p=sentinel;
         while(p.next != sentinel){
@@ -52,6 +58,7 @@ public class LinkedListDeque<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst(){
         if(size>0) {
             Node p = sentinel.next;
@@ -63,6 +70,7 @@ public class LinkedListDeque<T> {
         return null;
     }
 
+    @Override
     public T removeLast(){
         if(size>0) {
             Node p = sentinel.last;
@@ -75,6 +83,7 @@ public class LinkedListDeque<T> {
 
     }
 
+    @Override
     public T get(int index){
         if(index>=size){
             return null;
@@ -105,5 +114,26 @@ public class LinkedListDeque<T> {
         return helpget(0,index,p);
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(!(o instanceof Deque)){
+            return false;
+        }
+        else {
+            Deque<?> oo= ((Deque<?>) o);
+            int aa = oo.size();
+            if (aa != size) {
+                return false;
+            }
+            Node p=sentinel.next;
+            for(int i=0;i<size;i++){
+                if(!(p.value.equals(oo.get(i)))){
+                    return false;
+                }
+                p=p.next;
+            }
+            return true;
+        }
+    }
 
 }
