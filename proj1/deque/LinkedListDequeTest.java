@@ -1,6 +1,10 @@
 package deque;
 
 import org.junit.Test;
+
+import java.util.Comparator;
+
+import static java.lang.Math.pow;
 import static org.junit.Assert.*;
 
 
@@ -128,7 +132,20 @@ public class LinkedListDequeTest {
         for (double i = 999999; i > 500000; i--) {
             assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
         }
+    }
 
-
+    public class comp implements Comparator<Integer> {
+        public int compare(Integer o1, Integer o2) {
+            return o1*o1 - o2*o2;
+        }
+    }
+    @Test
+    public void MaxArrayDequeTest(){
+        Comparator<Integer> c=new comp();
+        MaxArrayDeque<Integer> arr=new MaxArrayDeque<Integer>(c);
+        for (int i = 0; i <= 5; i++) {
+            arr.addFirst((int)(pow(-1,i))*i);
+        }
+        assertEquals("Should have the same value", -5, arr.max(), 0.0);
     }
 }

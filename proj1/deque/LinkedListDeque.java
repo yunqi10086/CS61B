@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private class Node{
         public T value;
         public Node last;
@@ -36,11 +38,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         sentinel.last.next=qwe;
         sentinel.last=qwe;
         size+=1;
-    }
-
-    @Override
-    public boolean isEmpty(){
-        return sentinel.last == sentinel && sentinel.next == sentinel;
     }
 
     @Override
@@ -133,6 +130,31 @@ public class LinkedListDeque<T> implements Deque<T> {
                 p=p.next;
             }
             return true;
+        }
+    }
+
+    public Iterator<T> iterator(){
+        return new it();
+    }
+
+    private class it implements Iterator<T>{
+        int pos;
+
+        public it(){
+            pos=0;
+        }
+
+        public boolean hasNext(){
+            return pos<size();
+        }
+
+        public T next(){
+            if(!hasNext()) {
+                return null;
+            }
+            T i=get(pos);
+            pos+=1;
+            return i;
         }
     }
 

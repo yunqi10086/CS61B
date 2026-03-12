@@ -1,6 +1,8 @@
 package deque;
 
-public class ArrayDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     public T[] array;
     public int nextfirst;
     public int nextlast;
@@ -56,11 +58,6 @@ public class ArrayDeque<T> implements Deque<T> {
         if(nextlast>=array.length){
             nextlast-=array.length;
         }
-    }
-
-    @Override
-    public boolean isEmpty(){
-        return size==0;
     }
 
     @Override
@@ -153,7 +150,29 @@ public class ArrayDeque<T> implements Deque<T> {
         }
     }
 
+    public Iterator<T> iterator(){
+        return new it();
+    }
 
+    private class it implements Iterator<T> {
+        int pos;
+
+        public it(){
+            pos=0;
+        }
+        public boolean hasNext(){
+            return pos<size();
+        }
+
+        public T next(){
+            if(!hasNext()){
+                return null;
+            }
+            T i=get(pos);
+            pos+=1;
+            return i;
+        }
+    }
 
 
 
