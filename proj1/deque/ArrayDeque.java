@@ -84,13 +84,6 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         T fir=array[nextfirst];
         array[nextfirst]=null;
         size-=1;
-//        if(size==0){
-//            array=(T[]) new Object[8];
-//            nextfirst=4;
-//            nextlast=5;
-//            size=0;
-//            return fir;
-//        }
         double a=(double)size/(double)array.length;
         if(array.length>=16 && a<0.25){
             resize((int)(0.25*array.length));
@@ -107,13 +100,6 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         T las=array[nextlast];
         array[nextlast]=null;
         size-=1;
-//        if(size==0){
-//            array=(T[]) new Object[8];
-//            nextfirst=4;
-//            nextlast=5;
-//            size=0;
-//            return las;
-//        }
         double a=(double)size/(double)array.length;
         if(array.length>=16 && a<0.25){
             resize((int)(0.25*array.length));

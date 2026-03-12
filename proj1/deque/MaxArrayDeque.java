@@ -22,15 +22,11 @@ public class MaxArrayDeque<T> extends ArrayDeque<T>{
         T m=get(0);
         while(it.hasNext()){
             T i=it.next();
-            if(comparator.compare(m,i)<0){
+            if(c.compare(m,i)<0){
                 m=i;
             }
         }
         return m;
     }
-
-
-
-
 
 }
