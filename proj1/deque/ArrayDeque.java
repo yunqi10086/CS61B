@@ -3,10 +3,10 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
-    public T[] array;
-    public int nextfirst;
-    public int nextlast;
-    public int size;
+    private T[] array;
+    private int nextfirst;
+    private int nextlast;
+    private int size;
 
     public ArrayDeque(){
         array=(T[]) new Object[8];
