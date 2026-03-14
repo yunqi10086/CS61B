@@ -156,6 +156,5 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             pos+=1;
             return i;
         }
-    }
 
 }

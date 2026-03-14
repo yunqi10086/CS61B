@@ -29,4 +29,14 @@ public class MaxArrayDeque<T> extends ArrayDeque<T>{
         return m;
     }
 
+    /*For example:
+
+    public class myCom implements Comparator<Integer>{
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o1 - o2;
+        }
+    }
+    */
+
 }
