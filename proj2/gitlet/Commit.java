@@ -5,6 +5,7 @@ package gitlet;
 import edu.princeton.cs.algs4.ST;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class Commit implements Serializable {
     public static File COMMITTED_DIR = Repository.COMMITTED_DIR;
 
     /* TODO: fill in the rest of this class. */
-    public Commit(String message, String parent){
+    public Commit(String message, String parent) throws IOException {
         this.message = message;
         this.parent = parent;
         if(parent == null){
