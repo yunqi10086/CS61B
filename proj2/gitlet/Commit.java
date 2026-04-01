@@ -54,7 +54,7 @@ public class Commit implements Serializable {
         List<String> l = plainFilenamesIn(STAGED);
         List<String> ll =plainFilenamesIn(REMOVED);
         if( (l == null || l.isEmpty() )&&( ll == null || ll.isEmpty()) ) { //判断是否有change
-            System.out.println("No changes added to the commit");
+            System.out.println("No changes added to the commit.");
             exit(0);
         }
         this.parent = new ArrayList<>();
@@ -66,8 +66,8 @@ public class Commit implements Serializable {
         this.timestamp = formatter.format(new Date());
 
         //clone map (not just simply '=')
-        for(String  a : this.parent){
-            File f = join(COMMITTED_DIR, a);
+        if(this.parent != null && !this.parent.isEmpty()){
+            File f = join(COMMITTED_DIR, this.parent.get(0));
             Commit par = readObject(f, Commit.class);
             this.map.putAll(par.map);
         }

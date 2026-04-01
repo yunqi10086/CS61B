@@ -69,7 +69,7 @@ public class Repository {
         Commit cur_com = getHeadCommit();
         String cur_hash = cur_com.map.get(arg);
         String new_hash = sha1(readContents(f));
-        if(cur_hash.equals(new_hash)){
+        if(new_hash.equals(cur_hash)){
             //如果暂存区有就删掉
             File fff = join(STAGED, arg);
             if(fff.exists()){
@@ -251,12 +251,15 @@ public class Repository {
     }
 
     public static void checkout(String[] args) throws IOException {
-        if(args[1].equals("--")){       //java gitlet.Main checkout -- [file name]
+        if(args.length == 3 && args[1].equals("--")){       //java gitlet.Main checkout -- [file name]
             checkout_v1(args[2]);
-        }else if(args[2].equals("--")){  //java gitlet.Main checkout [commit id] -- [file name]
+        }else if(args.length == 4 && args[2].equals("--")){  //java gitlet.Main checkout [commit id] -- [file name]
             checkout_v2(args[1], args[3]);
-        }else{
+        }else if(args.length == 2){
             checkout_v3(args[1]);       //java gitlet.Main checkout [branch name]
+        }else{
+            System.out.println("error");
+            return;
         }
     }
     private static void checkout_v1(String filename){
@@ -291,7 +294,10 @@ public class Repository {
         Set<String> list2 = des_com.map.keySet();     //待跳转的commit目录下的文件名的list
         if (list1 != null) {    //dangerous
             for(String s : list1){
-                if(curr.map.get(s) == null && des_com.map.get(s) != null){
+                boolean is_tracked = (curr.map.get(s) != null);
+                boolean is_staged = join(STAGED, s).exists();
+                boolean is_untracked = !is_tracked && !is_staged;
+                if(is_untracked && des_com.map.get(s) != null){
                     System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
                     return;
                 }
@@ -409,7 +415,10 @@ public class Repository {
         Set<String> list2 = des_com.map.keySet();     //待跳转的commit目录下的文件名的list
         if (list1 != null) {    //dangerous
             for(String s : list1){
-                if(curr.map.get(s) == null && des_com.map.get(s) != null){
+                boolean is_tracked = (curr.map.get(s) != null);
+                boolean is_staged = join(STAGED, s).exists();
+                boolean is_untracked = !is_tracked && !is_staged;
+                if(is_untracked && des_com.map.get(s) != null){
                     System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
                     return;
                 }
@@ -487,7 +496,10 @@ public class Repository {
         Commit des_com = readObject(join(COMMITTED_DIR, des_hash), Commit.class);
         if (list1 != null) {    //dangerous
             for(String s : list1){
-                if(curr.map.get(s) == null && des_com.map.get(s) != null){
+                boolean is_tracked = (curr.map.get(s) != null);
+                boolean is_staged = join(STAGED, s).exists();
+                boolean is_untracked = !is_tracked && !is_staged;
+                if(is_untracked && des_com.map.get(s) != null){
                     System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
                     return;
                 }
@@ -591,6 +603,8 @@ public class Repository {
         Queue<String> q = new LinkedList<>(); //q存放head commit hash and it's parents hash
         Set<String> s = new HashSet<>();
         q.add(getHeadHash());
+        Set<String> visited1 = new HashSet<>();
+        visited1.add(getHeadHash());
         while(!q.isEmpty()){    //把head的所有父commit的hash都存到Set<String> s里面
             String first = q.poll();
             s.add(first);
@@ -598,7 +612,10 @@ public class Repository {
             Commit com = readObject(f, Commit.class);
             if(com.get_parent() != null){
                 for(String st : com.get_parent()){
-                    q.add(st);
+                    if(!visited1.contains(st)){
+                        visited1.add(st);
+                        q.add(st);
+                    }
                 }
             }
         }
@@ -607,6 +624,8 @@ public class Repository {
         String hash_of_giving_branch = readContentsAsString(ff);
         Queue<String> q2 = new LinkedList<>();  //q2存放giving_commit hash and it's parents hash
         q2.add(hash_of_giving_branch);
+        Set<String> visited = new HashSet<>();
+        visited.add(hash_of_giving_branch);
         while(!q2.isEmpty()){                   //遍历比较父提交
             String first = q2.poll();
             if (s.contains(first)) {
@@ -616,10 +635,10 @@ public class Repository {
             Commit com = readObject(f, Commit.class);
             if(com.get_parent() != null){
                 for(String st : com.get_parent()){
-                    if(s.contains(st)){
-                        return st;
+                    if(!visited.contains(st)){
+                        visited.add(st);
+                        q2.add(st);
                     }
-                    q2.add(st);
                 }
             }
         }

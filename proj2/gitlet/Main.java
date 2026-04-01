@@ -27,6 +27,10 @@ public class Main {
                     break;
                 case "add":
                     // TODO: handle the `add [filename]` command
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.add(args[1]);
                     break;
                 // TODO: FILL THE REST IN
@@ -39,6 +43,10 @@ public class Main {
                     }
                     break;
                 case "rm":
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.rm(args[1]);
                     break;
                 case "log":
@@ -48,6 +56,10 @@ public class Main {
                     Repository.global_log();
                     break;
                 case "find":
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.find(args[1]);
                     break;
                 case "status":
@@ -57,15 +69,31 @@ public class Main {
                     Repository.checkout(args);
                     break;
                 case "branch":
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.branch(args[1]);
                     break;
                 case "rm-branch":
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.rm_branch(args[1]);
                     break;
                 case "reset":
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.reset(args[1]);
                     break;
                 case "merge":
+                    if (args.length != 2) {
+                        System.out.println("error");
+                        exit(0);
+                    }
                     Repository.merge(args[1]);
                     break;
                 default:
